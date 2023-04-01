@@ -12,6 +12,10 @@ public class WalkerGenerator : MonoBehaviour
         EMPTY
     }
 
+    public GameObject wall;
+    public GameObject floor;
+    [SerializeField] GameObject player;
+
     //Variables
     public Grid[,] gridHandler;
     public List<WalkerObject> Walkers;
@@ -31,6 +35,7 @@ public class WalkerGenerator : MonoBehaviour
     void Start()
     {
         InitializeGrid();
+        //Instantiate(player, new Vector3(gridHandler.GetLength(0) / 2 + 0.5f, gridHandler.GetLength(1) / 2 + 0.5f, 0), Quaternion.identity);
     }
 
     void InitializeGrid()
@@ -51,6 +56,9 @@ public class WalkerGenerator : MonoBehaviour
 
         WalkerObject curWalker = new WalkerObject(new Vector2(TileCenter.x, TileCenter.y), GetDirection(), 0.5f);
         gridHandler[TileCenter.x, TileCenter.y] = Grid.FLOOR;
+
+        Instantiate(floor, new Vector3(TileCenter.x + 0.5f, TileCenter.y + 0.5f, 0), Quaternion.identity);
+
         tileMap.SetTile(TileCenter, Floor);
         Walkers.Add(curWalker);
 
@@ -93,6 +101,8 @@ public class WalkerGenerator : MonoBehaviour
                     TileCount++;
                     gridHandler[curPos.x, curPos.y] = Grid.FLOOR;
                     hasCreatedFloor = true;
+
+                    Instantiate(floor, new Vector3(curPos.x + 0.5f, curPos.y + 0.5f, 0), Quaternion.identity);
                 }
             }
 
@@ -179,24 +189,36 @@ public class WalkerGenerator : MonoBehaviour
                     {
                         tileMap.SetTile(new Vector3Int(x + 1, y, 0), Wall);
                         gridHandler[x + 1, y] = Grid.WALL;
+
+                        Instantiate(wall, new Vector3(x + 1 + 0.5f, y + 0.5f, 0), Quaternion.identity);
+
                         hasCreatedWall = true;
                     }
                     if (gridHandler[x - 1, y] == Grid.EMPTY)
                     {
                         tileMap.SetTile(new Vector3Int(x - 1, y, 0), Wall);
                         gridHandler[x - 1, y] = Grid.WALL;
+
+                        Instantiate(wall, new Vector3(x - 1 + 0.5f, y + 0.5f, 0), Quaternion.identity);
+                        
                         hasCreatedWall = true;
                     }
                     if (gridHandler[x, y + 1] == Grid.EMPTY)
                     {
                         tileMap.SetTile(new Vector3Int(x, y + 1, 0), Wall);
                         gridHandler[x, y + 1] = Grid.WALL;
+
+                        Instantiate(wall, new Vector3(x + 0.5f, y + 1 + 0.5f, 0), Quaternion.identity);
+
                         hasCreatedWall = true;
                     }
                     if (gridHandler[x, y - 1] == Grid.EMPTY)
                     {
                         tileMap.SetTile(new Vector3Int(x, y - 1, 0), Wall);
                         gridHandler[x, y - 1] = Grid.WALL;
+
+                        Instantiate(wall, new Vector3(x + 0.5f, y - 1 + 0.5f, 0), Quaternion.identity);
+
                         hasCreatedWall = true;
                     }
 
