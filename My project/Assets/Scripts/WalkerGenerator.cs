@@ -15,6 +15,7 @@ public class WalkerGenerator : MonoBehaviour
     public GameObject wall;
     public GameObject floor;
     [SerializeField] GameObject player;
+    public GameObject coin;
 
     //Variables
     public Grid[,] gridHandler;
@@ -22,8 +23,8 @@ public class WalkerGenerator : MonoBehaviour
     public Tilemap tileMap;
     public Tile Floor;
     public Tile Wall;
-    public int MapWidth = 30;
-    public int MapHeight = 30;
+    public int MapWidth = 60;
+    public int MapHeight = 60;
 
     public Grid[,] upscaledGridHandler;
 
@@ -35,7 +36,24 @@ public class WalkerGenerator : MonoBehaviour
     void Start()
     {
         InitializeGrid();
+    
         //Instantiate(player, new Vector3(gridHandler.GetLength(0) / 2 + 0.5f, gridHandler.GetLength(1) / 2 + 0.5f, 0), Quaternion.identity);
+    }
+
+    void AddCollectibles()
+    {
+        int count = 0;
+        while(count<3){
+            int x = UnityEngine.Random.Range(0,60);
+            int y = UnityEngine.Random.Range(0,60);
+            if(gridHandler[x, y] == Grid.FLOOR)
+            {
+                Instantiate(coin, new Vector3(x+ 0.5f, y+ 0.5f, -1), Quaternion.identity);
+                count ++;
+                Debug.Log(count);
+                
+            }
+        }
     }
 
     void InitializeGrid()
@@ -57,7 +75,7 @@ public class WalkerGenerator : MonoBehaviour
         WalkerObject curWalker = new WalkerObject(new Vector2(TileCenter.x, TileCenter.y), GetDirection(), 0.5f);
         gridHandler[TileCenter.x, TileCenter.y] = Grid.FLOOR;
 
-        Instantiate(floor, new Vector3(TileCenter.x + 0.5f, TileCenter.y + 0.5f, 0), Quaternion.identity);
+        Instantiate(floor, new Vector3(TileCenter.x + 0.5f, TileCenter.y + 0.5f, -1), Quaternion.identity);
 
         tileMap.SetTile(TileCenter, Floor);
         Walkers.Add(curWalker);
@@ -102,10 +120,11 @@ public class WalkerGenerator : MonoBehaviour
                     gridHandler[curPos.x, curPos.y] = Grid.FLOOR;
                     hasCreatedFloor = true;
 
-                    Instantiate(floor, new Vector3(curPos.x + 0.5f, curPos.y + 0.5f, 0), Quaternion.identity);
+                    Instantiate(floor, new Vector3(curPos.x + 0.5f, curPos.y + 0.5f, -1), Quaternion.identity);
+                
                 }
             }
-
+        
             //Walker Methods
             ChanceToRemove();
             ChanceToRedirect();
@@ -115,6 +134,7 @@ public class WalkerGenerator : MonoBehaviour
             if (hasCreatedFloor)
             {
                 yield return new WaitForSeconds(WaitTime);
+                 
             }
         }
 
@@ -190,7 +210,7 @@ public class WalkerGenerator : MonoBehaviour
                         tileMap.SetTile(new Vector3Int(x + 1, y, 0), Wall);
                         gridHandler[x + 1, y] = Grid.WALL;
 
-                        Instantiate(wall, new Vector3(x + 1 + 0.5f, y + 0.5f, 0), Quaternion.identity);
+                        Instantiate(wall, new Vector3(x + 1 + 0.5f, y + 0.5f, -1), Quaternion.identity);
 
                         hasCreatedWall = true;
                     }
@@ -199,7 +219,7 @@ public class WalkerGenerator : MonoBehaviour
                         tileMap.SetTile(new Vector3Int(x - 1, y, 0), Wall);
                         gridHandler[x - 1, y] = Grid.WALL;
 
-                        Instantiate(wall, new Vector3(x - 1 + 0.5f, y + 0.5f, 0), Quaternion.identity);
+                        Instantiate(wall, new Vector3(x - 1 + 0.5f, y + 0.5f, -1), Quaternion.identity);
                         
                         hasCreatedWall = true;
                     }
@@ -208,7 +228,7 @@ public class WalkerGenerator : MonoBehaviour
                         tileMap.SetTile(new Vector3Int(x, y + 1, 0), Wall);
                         gridHandler[x, y + 1] = Grid.WALL;
 
-                        Instantiate(wall, new Vector3(x + 0.5f, y + 1 + 0.5f, 0), Quaternion.identity);
+                        Instantiate(wall, new Vector3(x + 0.5f, y + 1 + 0.5f, -1), Quaternion.identity);
 
                         hasCreatedWall = true;
                     }
@@ -217,7 +237,7 @@ public class WalkerGenerator : MonoBehaviour
                         tileMap.SetTile(new Vector3Int(x, y - 1, 0), Wall);
                         gridHandler[x, y - 1] = Grid.WALL;
 
-                        Instantiate(wall, new Vector3(x + 0.5f, y - 1 + 0.5f, 0), Quaternion.identity);
+                        Instantiate(wall, new Vector3(x + 0.5f, y - 1 + 0.5f, -1), Quaternion.identity);
 
                         hasCreatedWall = true;
                     }
@@ -229,6 +249,9 @@ public class WalkerGenerator : MonoBehaviour
                 }
             }
         }
+        AddCollectibles();
+
+
         //StartCoroutine(UpscaleAndSmoothenMap());
     }
 

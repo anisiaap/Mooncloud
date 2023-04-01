@@ -56,6 +56,7 @@ public class playerMove : MonoBehaviour
             moveSpeed = 1;
             IsSneaking = true;
             stepInterval = 0.5f;
+            
         }
 
         if (Input.GetKeyUp(KeyCode.LeftShift))
