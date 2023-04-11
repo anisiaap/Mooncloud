@@ -7,7 +7,9 @@ TagManager:
   - Wall
   - soundCircle
   - Enemy
-  - collectible
+  - enemySoundCircle
+  - trace
+  - coin
   layers:
   - Default
   - TransparentFX

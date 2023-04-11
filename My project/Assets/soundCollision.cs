@@ -38,7 +38,10 @@ public class soundCollision : MonoBehaviour
 
         if(collision.gameObject.CompareTag("Enemy"))
         {
-            Destroy(gameObject);
+            var speed = lastVelocity.magnitude;
+            var direction = Vector3.Reflect(lastVelocity.normalized, collision.contacts[0].normal);
+
+            rb.velocity = direction * Mathf.Max(speed, 0f);
         }
     }
 }

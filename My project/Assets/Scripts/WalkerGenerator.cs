@@ -10,11 +10,11 @@ public class WalkerGenerator : MonoBehaviour
         FLOOR,
         WALL,
         EMPTY
-    }
+    } 
 
     public GameObject wall;
     public GameObject floor;
-    [SerializeField] GameObject player;
+    public GameObject enemy;
     public GameObject coin;
 
     //Variables
@@ -23,8 +23,8 @@ public class WalkerGenerator : MonoBehaviour
     public Tilemap tileMap;
     public Tile Floor;
     public Tile Wall;
-    public int MapWidth = 60;
-    public int MapHeight = 60;
+    public int MapWidth = 30;
+    public int MapHeight = 30;
 
     public Grid[,] upscaledGridHandler;
 
@@ -36,26 +36,32 @@ public class WalkerGenerator : MonoBehaviour
     void Start()
     {
         InitializeGrid();
-    
-        //Instantiate(player, new Vector3(gridHandler.GetLength(0) / 2 + 0.5f, gridHandler.GetLength(1) / 2 + 0.5f, 0), Quaternion.identity);
     }
-
-    void AddCollectibles()
-    {
+    void AddCollectible(){
         int count = 0;
-        while(count<3){
-            int x = UnityEngine.Random.Range(0,60);
-            int y = UnityEngine.Random.Range(0,60);
-            if(gridHandler[x, y] == Grid.FLOOR)
-            {
-                Instantiate(coin, new Vector3(x+ 0.5f, y+ 0.5f, -1), Quaternion.identity);
-                count ++;
-                Debug.Log(count);
-                
+        while(count<4){
+            int x = UnityEngine.Random.Range(0,70);
+            int y = UnityEngine.Random.Range(0,70);
+            if(gridHandler[x,y] == Grid.FLOOR){
+                Instantiate(coin, new Vector3(x + 0.5f, y + 0.5f, -1), Quaternion.identity);
+                count++;
+                //Debug.Log(count);
             }
         }
     }
 
+    void AddEnemies(){
+        int count = 0;
+        while(count<3){
+            int x = UnityEngine.Random.Range(0,70);
+            int y = UnityEngine.Random.Range(0,70);
+            if(gridHandler[x,y] == Grid.FLOOR){
+                Instantiate(enemy, new Vector3(x + 0.5f, y + 0.5f, -1), Quaternion.identity);
+                count++;
+                //Debug.Log(count);
+            }
+        }
+    }
     void InitializeGrid()
     {
         gridHandler = new Grid[MapWidth, MapHeight];
@@ -121,10 +127,9 @@ public class WalkerGenerator : MonoBehaviour
                     hasCreatedFloor = true;
 
                     Instantiate(floor, new Vector3(curPos.x + 0.5f, curPos.y + 0.5f, -1), Quaternion.identity);
-                
                 }
             }
-        
+
             //Walker Methods
             ChanceToRemove();
             ChanceToRedirect();
@@ -134,7 +139,6 @@ public class WalkerGenerator : MonoBehaviour
             if (hasCreatedFloor)
             {
                 yield return new WaitForSeconds(WaitTime);
-                 
             }
         }
 
@@ -249,9 +253,8 @@ public class WalkerGenerator : MonoBehaviour
                 }
             }
         }
-        AddCollectibles();
-
-
+        AddCollectible();
+        AddEnemies();
         //StartCoroutine(UpscaleAndSmoothenMap());
     }
 

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class playerMove : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class playerMove : MonoBehaviour
     float InstantiationTimer = 1f;
     float stepInterval = 1f;
     bool IsSneaking = false;
+    public static int score = 0;
 
     [SerializeField] GameObject soundCenterPrefab;
     [SerializeField] GameObject clapSoundCenterPrefab;
@@ -20,15 +23,12 @@ public class playerMove : MonoBehaviour
     public AudioSource concrete_step1;
     public AudioSource concrete_step2;
     public AudioSource concrete_step3;
+    public AudioSource hapciu;
     
 
     void Start()
     {
-       clap = GetComponent<AudioSource>();
-       concrete_step1 = GetComponent<AudioSource>();
-       concrete_step2 = GetComponent<AudioSource>();
-       concrete_step3 = GetComponent<AudioSource>();
-    
+        score = 0;
     }
 
 
@@ -53,10 +53,16 @@ public class playerMove : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
+            if(Random.Range(1,300) == 124)
+            {
+                hapciu.Play();
+                GameObject obj;
+                obj = Instantiate(soundCenterPrefab, transform.position, Quaternion.identity);
+                Destroy(obj, 2f);
+            }
             moveSpeed = 1;
             IsSneaking = true;
-            stepInterval = 0.5f;
-            
+            stepInterval = 0.7f;
         }
 
         if (Input.GetKeyUp(KeyCode.LeftShift))
@@ -64,6 +70,15 @@ public class playerMove : MonoBehaviour
             moveSpeed = 2;
             IsSneaking = false;
             stepInterval = 1f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(Time.timeScale != 0)
+            {
+                Time.timeScale = 0;
+                SceneManager.LoadScene("PauseScene", LoadSceneMode.Additive);
+            }
         }
     }
 
@@ -75,10 +90,12 @@ public class playerMove : MonoBehaviour
             GameObject obj;
             if(IsSneaking)
             {
+                concrete_step3.Play();
                 obj = Instantiate(sneakSoundCenterPrefab, transform.position, Quaternion.identity);
             }
             else
             {
+                concrete_step1.Play();
                 obj = Instantiate(soundCenterPrefab, transform.position, Quaternion.identity);
             }
             InstantiationTimer = stepInterval;
@@ -86,6 +103,15 @@ public class playerMove : MonoBehaviour
 
             obj = Instantiate(playerTrace, transform.position + new Vector3(0f,0f,-1f), Quaternion.identity);
             Destroy(obj, 3f);
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            //SceneManager.UnloadScene("main_game_scene");
+            SceneManager.LoadScene("DeadScene", LoadSceneMode.Single);
         }
     }
 }

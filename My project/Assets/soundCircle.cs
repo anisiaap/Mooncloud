@@ -37,6 +37,8 @@ public class soundCircle : MonoBehaviour
             foreach (GameObject obj in otherObjects) {
                 Physics2D.IgnoreCollision(obj.GetComponent<Collider2D>(), sound.GetComponent<Collider2D>()); 
             }
+
+            
         }
     }
 
