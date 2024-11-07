@@ -1,21 +1,31 @@
 # Mooncloud
 # Game Dev Project
+https://anisiaap.itch.io/depth-of-perception
 
-This is a game development project that uses Git for version control. The game is currently in development and is not yet complete.
+The game “Depth of Perception” invites players to help a monk regain his humanity by navigating a spirit world using sound cues to capture wild spirits from his book. This unique, strategy-oriented game emphasizes auditory skills in a top-down, dark-themed setting with procedural generation elements. It’s available for both HTML5 and Windows platforms and can be played directly in the browser or downloaded for desktop use. The game is highly rated and includes hidden easter eggs for an added challenge.
 
 ## Getting Started
 
 To get started with the project, follow these steps:
 
-1. Clone the repository to your local machine using the command:
-
-   `git clone https://github.com/[username]/[repository].git`
+1. Clone the repository to your local machine.
 
 2. Install any dependencies required for the project using the appropriate package manager for your platform.
 
 3. Open the project in your preferred code editor or IDE.
 
 4. Build and run the game.
+   
+If wanted to be played from browser, no installation is required.
+
+We also give you the opportunity to download it locally to your own computer.
+
+To do so: download and unarchive "DOP_forDesktop" and run the executable:"My project.exe"
+
+Have fun!
+![Screenshot 2024-11-07 at 22 41 58](https://github.com/user-attachments/assets/5b450de1-7aab-4fca-89ac-207e708a1066)
+
+![Screenshot 2024-11-07 at 22 42 41](https://github.com/user-attachments/assets/9c27c1ce-85ee-4eef-8f03-40a4cc3478d2)
 
 ## Contributing
 
@@ -35,9 +45,4 @@ If you encounter any issues or bugs while playing the game, please report them u
 
 ## Credits
 
-The game was developed by [your name here].
-
-## License
-
-This project is licensed under the [your chosen license]. See the `LICENSE` file for details.
 
